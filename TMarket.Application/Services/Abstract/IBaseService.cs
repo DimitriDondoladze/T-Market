@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMarket.Persistence.DbModels.Interfaces;
 
-namespace TMarket.WEB.Services.Abstract
+namespace TMarket.Application.Services.Abstract
 {
     public interface IBaseService<T> : IService where T : class, IDbEntity
     {

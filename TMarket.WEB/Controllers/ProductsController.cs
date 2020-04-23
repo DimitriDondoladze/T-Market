@@ -8,7 +8,7 @@ using TMarket.Persistence.DbModels;
 using TMarket.WEB.Helpers.Constants;
 using TMarket.WEB.Helpers.Extensions;
 using TMarket.WEB.RequestModels;
-using TMarket.WEB.Services.Abstract;
+using TMarket.Application.Services.Abstract;
 
 namespace TMarket.WEB.Controllers
 {

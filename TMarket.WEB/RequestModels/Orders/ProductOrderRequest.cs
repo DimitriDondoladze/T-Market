@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TMarket.WEB.RequestModels.Orders
 {
     public class ProductOrderRequest
     {
-        [DisplayName("პროდუქტის აიდ")]
+        [Display(Name="პროდუქტის აიდ")]
         public int ProductId { get; set; }
-        [DisplayName("პროდუქტის რაოდენობ")]
+        [Display(Name="პროდუქტის რაოდენობ")]
         public int Quantity { get; set; }
     }
 }

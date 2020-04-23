@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TMarket.WEB.RequestModels.Orders
 {
     public class OrderRequest
     {
-        [DisplayName("პროდუქტის ლისტ")]
+        [Display(Name="პროდუქტის ლისტ")]
         public ICollection<ProductOrderRequest> OrderProducts { get; set; }
-        [DisplayName("იუზერის აიდ")]
+        [Display(Name="იუზერის აიდ")]
         public int UserId { get; set; }
     }
 }

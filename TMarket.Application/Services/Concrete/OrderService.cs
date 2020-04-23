@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TMarket.Persistence.DbModels;
 using TMarket.Persistence.UnitOfWork;
-using TMarket.WEB.RequestModels.Orders;
-using TMarket.WEB.Services.Abstract;
-using TMarket.WEB.Validators.CustomValidator.Abstract;
+using TMarket.Application.Services.Abstract;
+using TMarket.Application.CustomValidator.Abstract;
+using TMarket.Application.DomainModels;
 
-namespace TMarket.WEB.Services.Concrete
+namespace TMarket.Application.Services.Concrete
 {
     public class OrderService : IOrderService
     {
@@ -35,7 +35,7 @@ namespace TMarket.WEB.Services.Concrete
             return items;
         }
 
-        public async Task<bool> InsertOrderAsync(OrderRequest order)
+        public async Task<bool> InsertOrderAsync(OrderDomain order)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace TMarket.WEB.Services.Concrete
             }
         }
 
-        protected async Task<bool> AddOrderProduct(OrderRequest order, List<ProductDTO> products, int orderId)
+        protected async Task<bool> AddOrderProduct(OrderDomain order, List<ProductDTO> products, int orderId)
         {
             List<int> productIds = order.OrderProducts.Select(x => x.ProductId).ToList();
 

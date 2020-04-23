@@ -16,8 +16,8 @@ using TMarket.Persistence.Repositories.Concrete;
 using TMarket.Persistence.UnitOfWork;
 using TMarket.WEB.Helpers.CustomMiddlewares;
 using TMarket.WEB.Helpers.Filters;
-using TMarket.WEB.Services.Abstract;
-using TMarket.WEB.Services.Concrete;
+using TMarket.Application.Services.Abstract;
+using TMarket.Application.Services.Concrete;
 
 namespace TMarket.WEB
 {

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TMarket.WEB.RequestModels
 {
@@ -6,10 +7,10 @@ namespace TMarket.WEB.RequestModels
     {
         public int Id { get; set; }
 
-        [DisplayName("სახელ")]
+        [Display(Name="სახელ")]
         public string Name { get; set; }
 
-        [DisplayName("გვარ")]
+        [Display(Name="გვარ")]
         public string Lastname { get; set; }
     }
 }

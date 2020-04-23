@@ -5,9 +5,9 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using TMarket.Persistence.DbModels.Interfaces;
 using TMarket.Persistence.Repositories.Abstract;
-using TMarket.WEB.Services.Abstract;
+using TMarket.Application.Services.Abstract;
 
-namespace TMarket.WEB.Services.Concrete
+namespace TMarket.Application.Services.Concrete
 {
     public class BaseService<T> : IBaseService<T> where T : class, IDbEntity
     {

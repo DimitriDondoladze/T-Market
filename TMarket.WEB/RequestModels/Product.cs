@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TMarket.WEB.RequestModels
 {
@@ -7,18 +8,18 @@ namespace TMarket.WEB.RequestModels
     {
         public int Id { get; set; }
 
-        [DisplayName("პროდუქტის სახელ")]
+        [Display(Name="პროდუქტის სახელ")]
         public string Name { get; set; }
 
-        [DisplayName("პროდუქტის ფას")]
+        [Display(Name="პროდუქტის ფას")]
         public decimal Price { get; set; }
 
         public bool IsAvailable { get; set; }
 
-        [DisplayName("პროდუქტის ვად")]
+        [Display(Name="პროდუქტის ვად")]
         public DateTime UsefulnessTerm { get; set; }
 
-        [DisplayName("ხელმისწავდომი პროდუქტის რაოდენობ")]
+        [Display(Name="ხელმისწავდომი პროდუქტის რაოდენობ")]
         public int AvailableCount { get; set; }
     }
 }

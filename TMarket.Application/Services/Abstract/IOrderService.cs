@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMarket.Application.DomainModels;
 using TMarket.Persistence.DbModels;
-using TMarket.WEB.RequestModels.Orders;
 
-namespace TMarket.WEB.Services.Abstract
+namespace TMarket.Application.Services.Abstract
 {
     public interface IOrderService : IService
     {
         IEnumerable<OrderDTO> GetAllAsyncWithNoTracking();
-        Task<bool> InsertOrderAsync(OrderRequest order);
+        Task<bool> InsertOrderAsync(OrderDomain order);
     }
 }

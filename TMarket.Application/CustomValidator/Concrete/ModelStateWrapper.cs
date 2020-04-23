@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TMarket.WEB.Validators.CustomValidator.Abstract;
+using TMarket.Application.CustomValidator.Abstract;
 
-namespace TMarket.WEB.Validators.CustomValidator.Concrete
+namespace TMarket.Application.CustomValidator.Concrete
 {
     public class ModelStateWrapper : IValidationDictionary
     {

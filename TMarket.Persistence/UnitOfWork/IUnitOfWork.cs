@@ -10,7 +10,8 @@ namespace TMarket.Persistence.UnitOfWork
         IBaseRepository<OrderDTO> OrderRepository { get; }
         IBaseRepository<OrderProductDTO> OrderProductRepository { get; }
         IBaseRepository<UserDTO> UserRepository { get; }
-
+        IBaseRepository<CartDTO> CartRepository { get; }
+        IBaseRepository<CartProductDTO> CartProductRepository { get; }
         Task BeginTransactionAsync();
         Task CommitAsync();
         Task RollbackAsync();

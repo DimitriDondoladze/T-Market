@@ -4,6 +4,7 @@ using TMarket.Persistence.DbModels;
 using TMarket.WEB.Commands.CategoryCommands;
 using TMarket.WEB.Commands.UserCommands;
 using TMarket.WEB.RequestModels;
+using TMarket.WEB.RequestModels.Cart;
 using TMarket.WEB.RequestModels.Orders;
 using TMarket.WEB.RequestModels.Products;
 
@@ -28,9 +29,18 @@ namespace TMarket.WEB.MappingProfiles
             CreateMap<OrderRequest, OrderDomain>().ReverseMap();
             
             CreateMap<ProductOrderRequest, OrderProductDomain>();
+ 
+            CreateMap<CartProductDTO, ProductCartResponse>();
+
+            CreateMap<CartDTO, CartResponse>();
+
+            CreateMap<CartRequest, CartDomain>().ReverseMap();
+
+            CreateMap<ProductCartRequset, CartProductDomain>();
 
             CreateMap<CategoryDTO, CategoryRespond>();
             CreateMap<CategoryRequestCommand, CategoryDTO>();
+
         }
     }
 }

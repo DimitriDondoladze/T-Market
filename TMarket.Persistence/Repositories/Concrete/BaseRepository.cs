@@ -22,11 +22,12 @@ namespace TMarket.Persistence.Repositories.Concrete
             _dbset = _context.Set<T>();
         }
 
-        public async Task DeleteAsync(object id)
+        public async Task<T> DeleteAsync(object id)
         {
             var result = await GetByIdAsync(id);
             result.IsDeleted = true;
             await SaveAsync();
+            return result;
         }
 
         public async Task<IEnumerable<T>> GetAllAsyncWithNoTracking()
@@ -47,10 +48,11 @@ namespace TMarket.Persistence.Repositories.Concrete
                 : item.IsDeleted ? null : item;
         }
 
-        public async Task InsertAsync(T obj)
+        public async Task<T> InsertAsync(T obj)
         {
             await _dbset.AddAsync(obj);
             await SaveAsync();
+            return obj;
         }
 
         private async Task SaveAsync()
@@ -58,10 +60,11 @@ namespace TMarket.Persistence.Repositories.Concrete
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(T obj)
+        public async Task<T> UpdateAsync(T obj)
         {
             _context.Entry(obj).State = EntityState.Modified;
             await SaveAsync();
+            return obj;
         }
 
         private IQueryable<T> NotDeletedRowsOnly()

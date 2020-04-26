@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using TMarket.WEB.RequestModels;
+using TMarket.WEB.RequestModels.Errors;
 
 namespace TMarket.WEB.Helpers.Filters
 {

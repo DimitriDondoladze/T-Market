@@ -1,10 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace TMarket.WEB.RequestModels
+namespace TMarket.WEB.RequestModels.Products
 {
-    public class Product 
+    public class ProductRespond
     {
         public int Id { get; set; }
 

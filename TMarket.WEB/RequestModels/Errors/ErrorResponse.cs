@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TMarket.WEB.RequestModels
+namespace TMarket.WEB.RequestModels.Errors
 {
     public class ErrorResponse
     {

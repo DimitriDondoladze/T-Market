@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using TMarket.Persistence.DbModels;
 using TMarket.WEB.Helpers.Constants;
 using TMarket.WEB.Helpers.Extensions;
-using TMarket.WEB.RequestModels;
 using TMarket.Application.Services.Abstract;
+using TMarket.WEB.RequestModels.Products;
 
 namespace TMarket.WEB.Controllers
 {
@@ -27,21 +27,21 @@ namespace TMarket.WEB.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
+        public async Task<ActionResult<IEnumerable<ProductRespond>>> GetProducts(
             [FromQuery] string name, [FromQuery] decimal minPrice,
             [FromQuery] decimal maxPrice)
         {
-            Func<ProductDTO, bool> predicate = p => p.Name.ToUpper().StartsWithOrNull(name.ToUpper()) &&
+            Func<ProductDTO, bool> predicate = p => p.Name.ToUpper().StartsWithOrNull(name?.ToUpper()) &&
                 p.Price >= minPrice && p.Price.LessOrEmptyInput(maxPrice);
 
             var products = await _productService.FindAllAsyncWithNoTracking(predicate);
 
-            return _mapper.Map<List<Product>>(products);
+            return _mapper.Map<List<ProductRespond>>(products);
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<ProductRespond>> GetProduct(int id)
         {
             var product = await _productService.GetByIdAsync(id);
 
@@ -50,15 +50,15 @@ namespace TMarket.WEB.Controllers
                 return NotFound(string.Format(ModelConstants.PropertyNotFoundFromController, "პროდუქტი"));
             }
 
-            return _mapper.Map<Product>(product);
+            return _mapper.Map<ProductRespond>(product);
         }
 
         // PUT: api/Products/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutProduct(int id, ProductRequest product)
         {
             var products = await _productService.GetAllAsyncWithNoTracking();
-            if (id != product.Id || !products.Any(x => x.Id == id))
+            if (!products.Any(x => x.Id == id))
             {
                 return BadRequest(string.Format(ModelConstants.PropertyNotFoundFromController, "პროდუქტი"));
             }
@@ -70,16 +70,16 @@ namespace TMarket.WEB.Controllers
 
         // POST: api/Products
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<ProductRespond>> PostProduct(ProductRequest product)
         {
             await _productService.InsertAsync(_mapper.Map<ProductDTO>(product));
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            return CreatedAtAction("GetProduct", product);
         }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public async Task<ActionResult<ProductRespond>> DeleteProduct(int id)
         {
             var product = await _productService.GetByIdAsync(id);
             if (product == null)
@@ -88,21 +88,21 @@ namespace TMarket.WEB.Controllers
             }
 
             await _productService.DeleteAsync(id);
-            return _mapper.Map<Product>(product);
+            return _mapper.Map<ProductRespond>(product);
         }
 
         [HttpGet("GetPaginatedResult")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetPaginatedResult
+        public async Task<ActionResult<IEnumerable<ProductRespond>>> GetPaginatedResult
             (int currentPage = 1, int pageSize = 5, string sortBy = "Id", bool isAsc = true)
         {
-            if (currentPage < 1 || pageSize < 1 || typeof(Product).GetProperty(sortBy) == null)
+            if (currentPage < 1 || pageSize < 1 || typeof(ProductRespond).GetProperty(sortBy) == null)
             {
                 return BadRequest(ModelConstants.InvalidQuery);
             }
 
             IEnumerable<ProductDTO> products = await _productService
                 .GetPaginatedResultAsyncAsNoTracking(currentPage, pageSize, sortBy, isAsc);
-            return _mapper.Map<List<Product>>(products);
+            return _mapper.Map<List<ProductRespond>>(products);
         }
     }
 }

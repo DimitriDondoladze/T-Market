@@ -2,10 +2,11 @@
 using FluentValidation;
 using TMarket.WEB.Helpers.Constants;
 using TMarket.WEB.RequestModels;
+using TMarket.WEB.RequestModels.Products;
 
 namespace TMarket.WEB.Validators
 {
-    public class ProductValidator : AbstractValidator<Product>
+    public class ProductValidator : AbstractValidator<ProductRequest>
     {
         public ProductValidator()
         {

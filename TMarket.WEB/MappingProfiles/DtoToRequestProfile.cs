@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using TMarket.Application.DomainModels;
 using TMarket.Persistence.DbModels;
-using TMarket.WEB.Commands;
 using TMarket.WEB.Commands.UserCommands;
 using TMarket.WEB.RequestModels;
 using TMarket.WEB.RequestModels.Orders;
@@ -16,7 +15,9 @@ namespace TMarket.WEB.MappingProfiles
             CreateMap<UserDTO, UserRespond>();
             CreateMap<UserRequestCommand, UserDTO>();
 
-            CreateMap<ProductDTO, ProductRespond>();
+            CreateMap<ProductDTO, ProductRespond>().ForMember(dest => dest.CategoryName, opt 
+                => opt.MapFrom(src => src.Category.Name));
+
             CreateMap<ProductRequest, ProductDTO>();
 
             CreateMap<OrderProductDTO, ProductOrderResponse>();

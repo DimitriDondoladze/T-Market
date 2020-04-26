@@ -8,12 +8,24 @@ namespace TMarket.Persistence
     {
         public static void SeedData(this MarketDbContext context)
         {
+            if (!context.Categories.Any())
+            {
+                context.AddRange(
+                    new CategoryDTO { Name = "საოჯახო ტექნიკა" },
+                    new CategoryDTO { Name = "სააფთიაქო პროდუქტი" },
+                    new CategoryDTO { Name = "სურსათი" }
+                    );
+
+                context.SaveChanges();
+            }
+
             if (!context.Products.Any())
             {
                 context.Products.AddRange(
                     new ProductDTO
                     {
                         Name = "პირბადე",
+                        CategoryId = 2,
                         Price = 0.5M,
                         AvailableCount = 100,
                         IsAvailable = true,
@@ -21,7 +33,8 @@ namespace TMarket.Persistence
                     },
                     new ProductDTO
                     {
-                        Name = "საპონი",
+                        Name = "სმარტფონი",
+                        CategoryId = 1,
                         Price = 2.5M,
                         AvailableCount = 120,
                         IsAvailable = true,
@@ -29,7 +42,8 @@ namespace TMarket.Persistence
                     },
                     new ProductDTO
                     {
-                        Name = "კორონას საწინააღმდეგო მაზი",
+                        Name = "პური",
+                        CategoryId = 3,
                         Price = 22.5M,
                         AvailableCount = 250,
                         IsAvailable = true,

@@ -12,7 +12,7 @@ namespace TMarket.WEB.RequestModels.Products
 
         [Display(Name="პროდუქტის ფას")]
         public decimal Price { get; set; }
-
+        public string CategoryName { get; set; }
         public bool IsAvailable { get; set; }
 
         [Display(Name="პროდუქტის ვად")]

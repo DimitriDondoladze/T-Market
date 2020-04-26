@@ -12,6 +12,7 @@ namespace TMarket.Persistence.DbModels
         }
 
         public int Id { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public bool IsAvailable { get; set; }
@@ -23,5 +24,6 @@ namespace TMarket.Persistence.DbModels
         public DateTime DeleteDate { get; set; }
 
         public ICollection<OrderProductDTO> OrderProducts { get; set; }
+        public CategoryDTO Category { get; set; }
     }
 }

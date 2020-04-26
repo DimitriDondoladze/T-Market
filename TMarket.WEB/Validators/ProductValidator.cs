@@ -14,7 +14,12 @@ namespace TMarket.WEB.Validators
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)
                 .GreaterThanOrEqualTo(0).WithMessage(ModelConstants.MustBeMoreThanZero);
-            
+
+            RuleFor(p => p.CategoryId)
+                .Cascade(CascadeMode.StopOnFirstFailure)
+                .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)
+                .GreaterThanOrEqualTo(0).WithMessage(ModelConstants.MustBeMoreThanZero);
+
             RuleFor(p => p.Name)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)

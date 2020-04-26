@@ -14,6 +14,7 @@ namespace TMarket.Persistence
         public DbSet<UserDTO> Users { get; set; }
         public DbSet<OrderDTO> Orders { get; set; }
         public DbSet<OrderProductDTO> OrderProducts { get; set; }
+        public DbSet<CategoryDTO> Categories { get; set; }
 
         public MarketDbContext(DbContextOptions<MarketDbContext> options) :
             base(options)

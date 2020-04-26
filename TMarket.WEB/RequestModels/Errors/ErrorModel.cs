@@ -1,4 +1,4 @@
-﻿namespace TMarket.WEB.RequestModels
+﻿namespace TMarket.WEB.RequestModels.Errors
 {
     public class ErrorModel
     {

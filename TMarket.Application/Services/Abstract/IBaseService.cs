@@ -11,8 +11,8 @@ namespace TMarket.Application.Services.Abstract
         Task<IEnumerable<T>> GetPaginatedResultAsyncAsNoTracking(int currentPage, int pageSize, string sortBy, bool isAsc);
         Task<IEnumerable<T>> FindAllAsyncWithNoTracking(Func<T, bool> predicate);
         Task<T> GetByIdAsync(object id);
-        Task InsertAsync(T obj);
-        Task UpdateAsync(T obj);
-        Task DeleteAsync(object id);
+        Task<T> InsertAsync(T obj);
+        Task<T> UpdateAsync(T obj);
+        Task<T> DeleteAsync(object id);
     }
 }

@@ -1,6 +1,7 @@
 using System.Reflection;
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,7 @@ namespace TMarket.WEB
                     .AsPublicImplementedInterfaces();
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddMediatR((typeof(Startup)));
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             services.Configure<ApiBehaviorOptions>(options =>
@@ -77,14 +79,10 @@ namespace TMarket.WEB
                 dbContext.SeedData();
             }
 
-            app.UseMiddleware<ErrorLoggingMiddleware>();
             app.UseMiddleware<RequestResponseLoggingMiddleware>();
-            
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
+            app.UseMiddleware<ErrorLoggingMiddleware>();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");

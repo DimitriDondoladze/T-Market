@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using TMarket.Application.DomainModels;
 using TMarket.Persistence.DbModels;
+using TMarket.WEB.Commands;
+using TMarket.WEB.Commands.UserCommands;
 using TMarket.WEB.RequestModels;
 using TMarket.WEB.RequestModels.Orders;
+using TMarket.WEB.RequestModels.Products;
 
 namespace TMarket.WEB.MappingProfiles
 {
@@ -10,11 +13,11 @@ namespace TMarket.WEB.MappingProfiles
     {
         public DtoToRequestProfile()
         {
-            CreateMap<UserDTO, User>()
-                .ReverseMap();
+            CreateMap<UserDTO, UserRespond>();
+            CreateMap<UserRequestCommand, UserDTO>();
 
-            CreateMap<ProductDTO, Product>()
-                .ReverseMap();
+            CreateMap<ProductDTO, ProductRespond>();
+            CreateMap<ProductRequest, ProductDTO>();
 
             CreateMap<OrderProductDTO, ProductOrderResponse>();
 

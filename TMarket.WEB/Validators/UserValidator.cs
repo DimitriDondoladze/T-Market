@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using TMarket.WEB.Commands;
+using TMarket.WEB.Commands.UserCommands;
 using TMarket.WEB.Helpers.Constants;
-using TMarket.WEB.RequestModels;
 
 namespace TMarket.WEB.Validators
 {
-    public class UserValidator : AbstractValidator<User>
+    public class UserValidator : AbstractValidator<UserRequestCommand>
     {
         public UserValidator()
         {

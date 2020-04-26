@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TMarket.WEB.RequestModels
+namespace TMarket.WEB.RequestModels.Errors
 {
     public class ErrorDetails
     {

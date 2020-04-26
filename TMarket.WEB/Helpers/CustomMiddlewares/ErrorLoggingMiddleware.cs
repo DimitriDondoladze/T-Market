@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using TMarket.WEB.RequestModels;
+using TMarket.WEB.RequestModels.Errors;
 
 namespace TMarket.WEB.Helpers.CustomMiddlewares
 {

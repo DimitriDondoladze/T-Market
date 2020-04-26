@@ -18,8 +18,8 @@ namespace TMarket.Persistence.Repositories.Abstract
                                     Func<IQueryable<T>, IIncludableQueryable<T, object>> include,
                                     bool disableTracking);
         Task<T> GetByIdAsync(object id);
-        Task InsertAsync(T obj);
-        Task UpdateAsync(T obj);
-        Task DeleteAsync(object id);
+        Task<T> InsertAsync(T obj);
+        Task<T> UpdateAsync(T obj);
+        Task<T> DeleteAsync(object id);
     }
 }

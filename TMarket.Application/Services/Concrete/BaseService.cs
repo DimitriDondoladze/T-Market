@@ -18,9 +18,9 @@ namespace TMarket.Application.Services.Concrete
             _repository = repository;
         }
 
-        public async Task DeleteAsync(object id)
+        public async Task<T> DeleteAsync(object id)
         {
-            await _repository.DeleteAsync(id);
+            return await _repository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<T>> FindAllAsyncWithNoTracking(Func<T, bool> predicate)
@@ -49,14 +49,14 @@ namespace TMarket.Application.Services.Concrete
             return sortedProducts.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        public async Task InsertAsync(T obj)
+        public async Task<T> InsertAsync(T obj)
         {
-            await _repository.InsertAsync(obj);
+            return await _repository.InsertAsync(obj);
         }
 
-        public async Task UpdateAsync(T obj)
+        public async Task<T> UpdateAsync(T obj)
         {
-            await _repository.UpdateAsync(obj);
+            return await _repository.UpdateAsync(obj);
         }
     }
 }

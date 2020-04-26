@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TMarket.Application.DomainModels;
 using TMarket.Persistence.DbModels;
+using TMarket.WEB.Commands.CategoryCommands;
 using TMarket.WEB.Commands.UserCommands;
 using TMarket.WEB.RequestModels;
 using TMarket.WEB.RequestModels.Orders;
@@ -27,6 +28,9 @@ namespace TMarket.WEB.MappingProfiles
             CreateMap<OrderRequest, OrderDomain>().ReverseMap();
             
             CreateMap<ProductOrderRequest, OrderProductDomain>();
+
+            CreateMap<CategoryDTO, CategoryRespond>();
+            CreateMap<CategoryRequestCommand, CategoryDTO>();
         }
     }
 }

@@ -9,6 +9,8 @@ using TMarket.WEB.Helpers.Constants;
 using TMarket.WEB.Helpers.Extensions;
 using TMarket.Application.Services.Abstract;
 using TMarket.WEB.RequestModels.Products;
+using System.Linq.Expressions;
+using WebApplication2.Services.Abstract;
 
 namespace TMarket.WEB.Controllers
 {
@@ -18,11 +20,14 @@ namespace TMarket.WEB.Controllers
     {
         private readonly IBaseService<ProductDTO> _productService;
         private readonly IMapper _mapper;
+        private readonly IProductService _productConstructor;
 
-        public ProductsController(IBaseService<ProductDTO> productService, IMapper mapper)
+        public ProductsController(IBaseService<ProductDTO> productService, IMapper mapper,
+                                  IProductService productConstructor)
         {
             _productService = productService;
             _mapper = mapper;
+            _productConstructor = productConstructor;
         }
 
         // GET: api/Products
@@ -31,10 +36,11 @@ namespace TMarket.WEB.Controllers
             [FromQuery] string name, [FromQuery] decimal minPrice,
             [FromQuery] decimal maxPrice)
         {
-            Func<ProductDTO, bool> predicate = p => p.Name.ToUpper().StartsWithOrNull(name?.ToUpper()) &&
+            Func<ProductDTO, bool> predicate = p => p.Name.ToUpper().StartsWithOrNull(name.ToUpper()) &&
                 p.Price >= minPrice && p.Price.LessOrEmptyInput(maxPrice);
 
             var products = await _productService.FindAllAsyncWithNoTracking(predicate);
+
 
             return _mapper.Map<List<ProductRespond>>(products);
         }
@@ -43,7 +49,8 @@ namespace TMarket.WEB.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductRespond>> GetProduct(int id)
         {
-            var product = await _productService.GetByIdAsync(id);
+            //var product = await _productService.GetByIdAsync(id);
+            var product = _productConstructor.get(id);
 
             if (product == null)
             {

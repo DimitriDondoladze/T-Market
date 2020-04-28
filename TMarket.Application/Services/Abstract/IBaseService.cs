@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using TMarket.Persistence.DbModels;
 using TMarket.Persistence.DbModels.Interfaces;
 
 namespace TMarket.Application.Services.Abstract
@@ -14,5 +16,6 @@ namespace TMarket.Application.Services.Abstract
         Task<T> InsertAsync(T obj);
         Task<T> UpdateAsync(T obj);
         Task<T> DeleteAsync(object id);
+        
     }
 }

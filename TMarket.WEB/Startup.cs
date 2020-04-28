@@ -19,6 +19,9 @@ using TMarket.WEB.Helpers.CustomMiddlewares;
 using TMarket.WEB.Helpers.Filters;
 using TMarket.Application.Services.Abstract;
 using TMarket.Application.Services.Concrete;
+using System.IO;
+using WebApplication2.DAL.DAL.DapperRepo;
+using WebApplication2.DAL.DAL.DapperRepo.Concrete;
 
 namespace TMarket.WEB
 {
@@ -61,6 +64,11 @@ namespace TMarket.WEB
             })
             .AddFluentValidation(mvcConfig =>
                 mvcConfig.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            var config = builder.Build();
+
+            services.AddTransient<IProductProcessor>(f => new ProductProccesor(config["ConnectionStrings:DefaultConnection"]));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

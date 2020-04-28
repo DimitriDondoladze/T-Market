@@ -9,6 +9,7 @@ using TMarket.WEB.Helpers.Constants;
 using TMarket.WEB.Helpers.Extensions;
 using TMarket.Application.Services.Abstract;
 using TMarket.WEB.RequestModels.Products;
+using System.Linq.Expressions;
 
 namespace TMarket.WEB.Controllers
 {
@@ -31,7 +32,7 @@ namespace TMarket.WEB.Controllers
             [FromQuery] string name, [FromQuery] decimal minPrice,
             [FromQuery] decimal maxPrice)
         {
-            Func<ProductDTO, bool> predicate = p => p.Name.ToUpper().StartsWithOrNull(name?.ToUpper()) &&
+            Expression<Func<ProductDTO, bool>> predicate = p => p.Name.ToUpper().StartsWithOrNull(name.ToUpper()) &&
                 p.Price >= minPrice && p.Price.LessOrEmptyInput(maxPrice);
 
             var products = await _productService.FindAllAsyncWithNoTracking(predicate);

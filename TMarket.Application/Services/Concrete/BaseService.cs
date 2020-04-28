@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TMarket.Persistence.DbModels.Interfaces;
 using TMarket.Persistence.Repositories.Abstract;
 using TMarket.Application.Services.Abstract;
+using System.Linq.Expressions;
 
 namespace TMarket.Application.Services.Concrete
 {
@@ -23,7 +24,7 @@ namespace TMarket.Application.Services.Concrete
             return await _repository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<T>> FindAllAsyncWithNoTracking(Func<T, bool> predicate)
+        public async Task<IQueryable<T>> FindAllAsyncWithNoTracking(Expression<Func<T, bool>> predicate)
         {
             var items = await _repository.GetAllAsyncWithNoTracking();
 

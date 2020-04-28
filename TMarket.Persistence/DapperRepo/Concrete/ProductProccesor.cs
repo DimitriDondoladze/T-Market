@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Dapper;
 using TMarket.Persistence.DbModels;
+using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace WebApplication2.DAL.DAL.DapperRepo.Concrete
 {
@@ -9,19 +11,19 @@ namespace WebApplication2.DAL.DAL.DapperRepo.Concrete
 
     {
         private readonly string connectionString;
-        public ProductProccesor(string connectionString)
+        public ProductProccesor(IConfiguration configuration)
         {
-            this.connectionString = connectionString;
+            connectionString = configuration["ConnectionStrings:DefaultConnection"];
         }
 
-        IEnumerable<ProductDTO> IProductProcessor.get(int id)
+     public  ProductDTO get(int id)
         {
             IEnumerable<ProductDTO> ProductDtOs = null;
             using (var connection = new SqlConnection(connectionString))
             {
-                ProductDtOs = connection.Query<ProductDTO>("SELECT [Id], [Name], [Price], [IsAvailable], [expiredate], [AvailableCount] FROM[MarketDb].[dbo].[Products]");
+                ProductDtOs = connection.Query<ProductDTO>($"SELECT [Id], [Name], [Price], [IsAvailable], [UsefulnessTerm], [AvailableCount] FROM[MarketDb].[dbo].[Products] Where dbo.Products.Id = {id}");
             }
-            return ProductDtOs;
+            return ProductDtOs.FirstOrDefault();
         }
     }
 }

@@ -5,6 +5,6 @@ namespace WebApplication2.Services.Abstract
 {
     public interface IProductService
     {
-        IEnumerable<ProductDTO> get(int id);
+        ProductDTO get(int id);
     }
 }

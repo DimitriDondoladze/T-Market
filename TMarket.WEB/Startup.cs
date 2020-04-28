@@ -22,6 +22,8 @@ using TMarket.Application.Services.Concrete;
 using System.IO;
 using WebApplication2.DAL.DAL.DapperRepo;
 using WebApplication2.DAL.DAL.DapperRepo.Concrete;
+using WebApplication2.Services.Abstract;
+using WebApplication2.Services.Concrete;
 
 namespace TMarket.WEB
 {
@@ -44,6 +46,8 @@ namespace TMarket.WEB
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IProductService, ProductService>();
+            
 
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetAssembly(typeof(IService)))
                     .Where(c => typeof(IService).IsAssignableFrom(c))
@@ -65,10 +69,10 @@ namespace TMarket.WEB
             .AddFluentValidation(mvcConfig =>
                 mvcConfig.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-            var config = builder.Build();
+            //var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            //var config = builder.Build();
 
-            services.AddTransient<IProductProcessor>(f => new ProductProccesor(config["ConnectionStrings:DefaultConnection"]));
+            services.AddScoped<IProductProcessor, ProductProccesor>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

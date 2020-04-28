@@ -13,7 +13,7 @@ namespace WebApplication2.Services.Concrete
             this.productProccesor = productProccesor;
         }
         
-        public IEnumerable<ProductDTO> get(int id)
+        public ProductDTO get(int id)
         {
             return productProccesor.get(id);
         }

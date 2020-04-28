@@ -10,7 +10,9 @@ using TMarket.WEB.Helpers.Extensions;
 using TMarket.Application.Services.Abstract;
 using TMarket.WEB.RequestModels.Products;
 using System.Linq.Expressions;
+
 using WebApplication2.Services.Abstract;
+
 
 namespace TMarket.WEB.Controllers
 {
@@ -32,14 +34,17 @@ namespace TMarket.WEB.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductRespond>>> GetProducts(
+        public ActionResult<IEnumerable<ProductRespond>> GetProducts(
             [FromQuery] string name, [FromQuery] decimal minPrice,
             [FromQuery] decimal maxPrice)
         {
-            Func<ProductDTO, bool> predicate = p => p.Name.ToUpper().StartsWithOrNull(name.ToUpper()) &&
-                p.Price >= minPrice && p.Price.LessOrEmptyInput(maxPrice);
 
-            var products = await _productService.FindAllAsyncWithNoTracking(predicate);
+            //Expression<Func<ProductDTO, bool>> predicate = p => p.Name.ToUpper().StartsWithOrNull(name.ToUpper()) &&
+            //    p.Price >= minPrice && p.Price.LessOrEmptyInput(maxPrice);
+            Expression<Func<ProductDTO, bool>> predicate = Predicate(minPrice, maxPrice, name);
+
+
+            var products =  _productService.FindAllAsyncWithNoTracking(predicate);
 
 
             return _mapper.Map<List<ProductRespond>>(products);
@@ -111,5 +116,21 @@ namespace TMarket.WEB.Controllers
                 .GetPaginatedResultAsyncAsNoTracking(currentPage, pageSize, sortBy, isAsc);
             return _mapper.Map<List<ProductRespond>>(products);
         }
+
+        private Expression<Func<ProductDTO, bool>> Predicate(decimal minPrice, decimal maxPrice, string name)
+        {
+            ParameterExpression pe = Expression.Parameter(typeof(ProductDTO), "predicate");
+
+            MemberExpression me = Expression.Property(pe, "Price");
+
+            ConstantExpression constant = Expression.Constant(minPrice, typeof(decimal));
+            
+            BinaryExpression body = Expression.GreaterThanOrEqual(me, constant);
+
+            var ExpressionTree = Expression.Lambda<Func<ProductDTO, bool>>(body, new[] { pe });
+
+            return ExpressionTree;
+        }
+
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TMarket.Application.DomainModels;
 using TMarket.Application.Services;
@@ -44,7 +42,6 @@ namespace TMarket.WEB.Controllers
                 return Ok("შეკვეთა წარმატებით დაემატა!");
             }
 
-
             return BadRequest(ModelState.Where(ms => ms.Value.Errors.Count > 0)
                      .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Errors.Select(x => x.ErrorMessage).ToArray()));
         }
@@ -70,7 +67,6 @@ namespace TMarket.WEB.Controllers
             {
                 return Ok("შეკვეთა წარმატებით დაემატა!");
             }
-
 
             return BadRequest(ModelState.Where(ms => ms.Value.Errors.Count > 0)
                      .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Errors.Select(x => x.ErrorMessage).ToArray()));

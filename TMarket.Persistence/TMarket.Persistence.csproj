@@ -9,6 +9,8 @@
       <Compile Remove="Migrations\20200426134318_AddCategory.Designer.cs" />
       <Compile Remove="Migrations\20200426142336_test.cs" />
       <Compile Remove="Migrations\20200426142336_test.Designer.cs" />
+      <Compile Remove="Migrations\20200428200413_ChangeCartModel.cs" />
+      <Compile Remove="Migrations\20200428200413_ChangeCartModel.Designer.cs" />
     </ItemGroup>
 
     <ItemGroup>

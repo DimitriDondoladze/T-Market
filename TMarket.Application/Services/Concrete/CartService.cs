@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hangfire;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TMarket.Application.CustomValidator.Abstract;
 using TMarket.Application.DomainModels;
@@ -15,18 +16,20 @@ namespace TMarket.Application.Services.Concrete
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidationDictionary _validationDictionary;
+        private readonly IConfiguration _config;
 
-        public CartService(IUnitOfWork unitOfWork,
-            IValidationDictionary validationDictionary)
+        public CartService(IUnitOfWork unitOfWork, IValidationDictionary validationDictionary,
+            IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _validationDictionary = validationDictionary;
+            _config = configuration;
         }
 
         public IEnumerable<CartDTO> GetAllAsyncWithNoTracking()
         {
             var items = _unitOfWork.CartRepository.GetAll(p => p,
-                p => true,
+                p => !p.IsDeleted,
                 p => p.OrderBy(x => x.Id),
                 source => source
                 .Include(o => o.CartProducts)
@@ -62,6 +65,10 @@ namespace TMarket.Application.Services.Concrete
                 }
 
                 await _unitOfWork.SaveChangesAsync();
+
+                var jobId = BackgroundJob.Schedule(() => DeleteCart(NewCart.Id),
+                    TimeSpan.FromMinutes(_config.GetValue<int>("CartOptions:CartExpireTimeInMinute")));
+
                 await _unitOfWork.CommitAsync();
 
                 return true;
@@ -115,6 +122,12 @@ namespace TMarket.Application.Services.Concrete
             }
 
             return _validationDictionary.IsValid;
+        }
+
+        public async Task DeleteCart(int id)
+        {
+            await _unitOfWork.CartRepository.DeleteAsync(id);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

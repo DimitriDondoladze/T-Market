@@ -26,7 +26,7 @@ namespace TMarket.Application.Services.Concrete
         public IEnumerable<OrderDTO> GetAllAsyncWithNoTracking()
         {
             var items = _unitOfWork.OrderRepository.GetAll(p => p,
-                p => true,
+                p => !p.IsDeleted,
                 p => p.OrderBy(x => x.Id),
                 source => source
                 .Include(o => o.OrderProducts)

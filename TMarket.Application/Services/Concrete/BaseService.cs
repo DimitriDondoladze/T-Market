@@ -24,11 +24,11 @@ namespace TMarket.Application.Services.Concrete
             return await _repository.DeleteAsync(id);
         }
 
-        public async Task<IQueryable<T>> FindAllAsyncWithNoTracking(Expression<Func<T, bool>> predicate)
+        public IEnumerable<T> FindAllAsyncWithNoTracking(Expression<Func<T, bool>> predicate)
         {
-            var items = await _repository.GetAllAsyncWithNoTracking();
+            var items = _repository.GetAll(x => x, predicate, x => x.OrderBy(x => x.InsertDate), null, true);
 
-            return items.Where(predicate);
+            return items;
         }
 
         public async Task<IEnumerable<T>> GetAllAsyncWithNoTracking()

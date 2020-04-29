@@ -29,7 +29,7 @@ namespace TMarket.WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductsInCart()
         {
-            var carts = _cartService.GetAllAsyncWithNoTracking();
+            var carts = _cartService.GetAllWithNoTracking();
 
             return Ok(_mapper.Map<List<CartResponse>>(carts));
         }
@@ -48,7 +48,7 @@ namespace TMarket.WEB.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult> PostCartById(int id)
         {
-            var carts = _cartService.GetAllAsyncWithNoTracking();
+            var carts = _cartService.GetAllWithNoTracking();
             var cart = carts.SingleOrDefault(x => x.Id == id);
 
             if(cart == null)
@@ -65,6 +65,7 @@ namespace TMarket.WEB.Controllers
 
             if (await _orderService.InsertOrderAsync(_mapper.Map<OrderDomain>(order)))
             {
+                await _cartService.DeleteCart(cart.Id);
                 return Ok("შეკვეთა წარმატებით დაემატა!");
             }
 

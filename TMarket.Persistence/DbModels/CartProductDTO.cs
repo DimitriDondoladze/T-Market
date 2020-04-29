@@ -16,13 +16,13 @@ namespace TMarket.Persistence.DbModels
         public CartDTO Cart { get; set; }
 
         [NotMapped]
-        public bool IsDeleted { get => ((IDbEntity)Cart).IsDeleted; set => ((IDbEntity)Cart).IsDeleted = value; }
+        public bool IsDeleted { get; set; }
         [NotMapped]
-        public DateTime InsertDate { get => ((IDbEntity)Cart).InsertDate; set => ((IDbEntity)Cart).InsertDate = value; }
+        public DateTime InsertDate { get; set; }
         [NotMapped]
-        public DateTime UpdateDate { get => ((IDbEntity)Cart).UpdateDate; set => ((IDbEntity)Cart).UpdateDate = value; }
+        public DateTime UpdateDate { get; set; }
         [NotMapped]
-        public DateTime DeleteDate { get => ((IDbEntity)Cart).DeleteDate; set => ((IDbEntity)Cart).DeleteDate = value; }
+        public DateTime DeleteDate { get; set; }
         
     }
 }

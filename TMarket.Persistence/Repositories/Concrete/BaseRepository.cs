@@ -71,7 +71,7 @@ namespace TMarket.Persistence.Repositories.Concrete
         {
             return _dbset.Where(t => t.IsDeleted == false).AsQueryable();
         }
-        
+
         public IEnumerable<T> GetAll<TResult>(Expression<Func<T, TResult>> selector,
                                                   Expression<Func<T, bool>> predicate = null,
                                                   Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,

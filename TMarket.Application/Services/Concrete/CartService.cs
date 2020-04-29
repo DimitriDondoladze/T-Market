@@ -12,7 +12,7 @@ using TMarket.Persistence.UnitOfWork;
 
 namespace TMarket.Application.Services.Concrete
 {
-   public class CartService : ICartService
+    public class CartService : ICartService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidationDictionary _validationDictionary;
@@ -68,7 +68,7 @@ namespace TMarket.Application.Services.Concrete
                 {
                     newCart = doesUserHaveCart;
                 }
-                
+
 
                 if (!await AddOrderProduct(cart, products.ToList(), newCart))
                 {
@@ -83,12 +83,13 @@ namespace TMarket.Application.Services.Concrete
                     var jobId = BackgroundJob.Schedule(() => DeleteCart(newCart.Id),
                         TimeSpan.FromMinutes(_config.GetValue<int>("CartOptions:CartExpireTimeInMinute")));
                 }
-                
+
                 await _unitOfWork.CommitAsync();
 
                 return true;
 
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 await _unitOfWork.RollbackAsync();
                 throw;
@@ -163,14 +164,14 @@ namespace TMarket.Application.Services.Concrete
             return !carts.Any(cart => cart.Id == id);
         }
 
-        private CartDTO DoesUserHaveActiveCart (int userId)
+        private CartDTO DoesUserHaveActiveCart(int userId)
         {
             var carts = GetAllWithNoTracking();
 
             return carts.FirstOrDefault(x => x.UserId == userId);
         }
 
-        private CartProductDTO DoesCartHaveProduct (CartDTO cartDTO, int productId)
+        private CartProductDTO DoesCartHaveProduct(CartDTO cartDTO, int productId)
         {
             return cartDTO.CartProducts.FirstOrDefault(cartProduct => cartProduct.ProductId == productId);
         }

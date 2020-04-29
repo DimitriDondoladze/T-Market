@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMarket.Application.DomainModels;
 using TMarket.Application.Services.Abstract;
@@ -8,9 +6,10 @@ using TMarket.Persistence.DbModels;
 
 namespace TMarket.Application.Services
 {
-   public interface ICartService : IService
+    public interface ICartService : IService
     {
-        IEnumerable<CartDTO> GetAllAsyncWithNoTracking();
+        IEnumerable<CartDTO> GetAllWithNoTracking();
         Task<bool> InsertOrderAsync(CartDomain cart);
+        Task DeleteCart(int id);
     }
 }

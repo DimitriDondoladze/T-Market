@@ -26,7 +26,7 @@ namespace TMarket.Application.Services.Concrete
             _config = configuration;
         }
 
-        public IEnumerable<CartDTO> GetAllAsyncWithNoTracking()
+        public IEnumerable<CartDTO> GetAllWithNoTracking()
         {
             var items = _unitOfWork.CartRepository.GetAll(p => p,
                 p => !p.IsDeleted,
@@ -55,10 +55,22 @@ namespace TMarket.Application.Services.Concrete
                     return false;
                 }
 
-                var NewCart = new CartDTO { UserId = cart.UserId, };
-                await _unitOfWork.CartRepository.InsertAsync(NewCart);
+                var doesUserHaveCart = DoesUserHaveActiveCart(user.Id);
+                CartDTO newCart;
 
-                if (!await AddOrderProduct(cart, products.ToList(), NewCart.Id))
+
+                if (doesUserHaveCart == null)
+                {
+                    newCart = new CartDTO { UserId = cart.UserId, };
+                    await _unitOfWork.CartRepository.InsertAsync(newCart);
+                }
+                else
+                {
+                    newCart = doesUserHaveCart;
+                }
+                
+
+                if (!await AddOrderProduct(cart, products.ToList(), newCart))
                 {
                     await _unitOfWork.RollbackAsync();
                     return false;
@@ -66,9 +78,12 @@ namespace TMarket.Application.Services.Concrete
 
                 await _unitOfWork.SaveChangesAsync();
 
-                var jobId = BackgroundJob.Schedule(() => DeleteCart(NewCart.Id),
-                    TimeSpan.FromMinutes(_config.GetValue<int>("CartOptions:CartExpireTimeInMinute")));
-
+                if (doesUserHaveCart == null)
+                {
+                    var jobId = BackgroundJob.Schedule(() => DeleteCart(newCart.Id),
+                        TimeSpan.FromMinutes(_config.GetValue<int>("CartOptions:CartExpireTimeInMinute")));
+                }
+                
                 await _unitOfWork.CommitAsync();
 
                 return true;
@@ -80,7 +95,7 @@ namespace TMarket.Application.Services.Concrete
             }
         }
 
-        protected async Task<bool> AddOrderProduct(CartDomain cart, List<ProductDTO> products, int cartId)
+        protected async Task<bool> AddOrderProduct(CartDomain cart, List<ProductDTO> products, CartDTO cartDTO)
         {
             List<int> productIds = cart.CartProducts.Select(x => x.ProductId).ToList();
 
@@ -88,21 +103,30 @@ namespace TMarket.Application.Services.Concrete
             {
                 var productId = productIds[i];
                 var product = products.FirstOrDefault(x => x.Id == productId && x.IsAvailable);
-                var CartQuantity = cart.CartProducts.Single(x => x.ProductId == productId).Quantity;
+                var cartQuantity = cart.CartProducts.Single(x => x.ProductId == productId).Quantity;
 
-                if (!IsValidProduct(product, CartQuantity, productId, i))
+                if (!IsValidProduct(product, cartQuantity, productId, i))
                 {
                     continue;
                 }
 
-                product.AvailableCount -= CartQuantity;
+                product.AvailableCount -= cartQuantity;
 
                 if (product.AvailableCount == 0)
                 {
                     product.IsAvailable = false;
                 }
 
-                await _unitOfWork.CartProductRepository.InsertAsync(new CartProductDTO { CartId = cartId, ProductId = productId, Quantity = CartQuantity });
+                var cartProductInCart = DoesCartHaveProduct(cartDTO, productId);
+                if (cartProductInCart != null)
+                {
+                    cartProductInCart.Quantity += cartQuantity;
+                    await _unitOfWork.CartProductRepository.UpdateAsync(cartProductInCart);
+                }
+                else
+                {
+                    await _unitOfWork.CartProductRepository.InsertAsync(new CartProductDTO { CartId = cartDTO.Id, ProductId = productId, Quantity = cartQuantity });
+                }
             }
 
 
@@ -126,8 +150,29 @@ namespace TMarket.Application.Services.Concrete
 
         public async Task DeleteCart(int id)
         {
-            await _unitOfWork.CartRepository.DeleteAsync(id);
-            await _unitOfWork.SaveChangesAsync();
+            if (!IsCartDeleted(id))
+            {
+                await _unitOfWork.CartRepository.DeleteAsync(id);
+                await _unitOfWork.SaveChangesAsync();
+            }
+        }
+
+        private bool IsCartDeleted(int id)
+        {
+            var carts = GetAllWithNoTracking();
+            return !carts.Any(cart => cart.Id == id);
+        }
+
+        private CartDTO DoesUserHaveActiveCart (int userId)
+        {
+            var carts = GetAllWithNoTracking();
+
+            return carts.FirstOrDefault(x => x.UserId == userId);
+        }
+
+        private CartProductDTO DoesCartHaveProduct (CartDTO cartDTO, int productId)
+        {
+            return cartDTO.CartProducts.FirstOrDefault(cartProduct => cartProduct.ProductId == productId);
         }
     }
 }

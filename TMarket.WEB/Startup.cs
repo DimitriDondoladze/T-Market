@@ -118,7 +118,6 @@ namespace TMarket.WEB
             });
 
             app.UseHangfireDashboard();
-            backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from TMarket Application!"));
 
             app.UseRouting();
 

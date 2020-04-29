@@ -1,6 +1,7 @@
-using System.Reflection;
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using Hangfire;
+using Hangfire.SqlServer;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,18 +12,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using NetCore.AutoRegisterDi;
+using System;
+using System.Reflection;
+using TMarket.Application.Services.Abstract;
+using TMarket.Application.Services.Concrete;
 using TMarket.Persistence;
 using TMarket.Persistence.Repositories.Abstract;
 using TMarket.Persistence.Repositories.Concrete;
 using TMarket.Persistence.UnitOfWork;
 using TMarket.WEB.Helpers.CustomMiddlewares;
 using TMarket.WEB.Helpers.Filters;
-using TMarket.Application.Services.Abstract;
-using TMarket.Application.Services.Concrete;
-using Hangfire;
-using Hangfire.SqlServer;
-using System;
-using System.IO;
 using WebApplication2.DAL.DAL.DapperRepo;
 using WebApplication2.DAL.DAL.DapperRepo.Concrete;
 using WebApplication2.Services.Abstract;
@@ -50,7 +49,7 @@ namespace TMarket.WEB
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductService, ProductService>();
-            
+
 
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetAssembly(typeof(IService)))
                     .Where(c => typeof(IService).IsAssignableFrom(c))

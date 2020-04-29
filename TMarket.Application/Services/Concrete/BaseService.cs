@@ -7,6 +7,7 @@ using TMarket.Persistence.DbModels.Interfaces;
 using TMarket.Persistence.Repositories.Abstract;
 using TMarket.Application.Services.Abstract;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace TMarket.Application.Services.Concrete
 {
@@ -24,9 +25,10 @@ namespace TMarket.Application.Services.Concrete
             return await _repository.DeleteAsync(id);
         }
 
-        public IEnumerable<T> FindAllAsyncWithNoTracking(Expression<Func<T, bool>> predicate)
+        public IEnumerable<T> FindAllAsyncWithNoTracking(Expression<Func<T, bool>> predicate,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> include)
         {
-            var items = _repository.GetAll(x => x, predicate, x => x.OrderBy(x => x.InsertDate), null, true);
+            var items = _repository.GetAll(x => x, predicate, x => x.OrderBy(x => x.InsertDate), include, true);
 
             return items;
         }

@@ -1,16 +1,16 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using TMarket.Persistence.DbModels;
-using TMarket.WEB.Helpers.Constants;
-using TMarket.WEB.Helpers.Extensions;
-using TMarket.Application.Services.Abstract;
-using TMarket.WEB.RequestModels.Products;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
+using TMarket.Application.Services.Abstract;
+using TMarket.Persistence.DbModels;
+using TMarket.WEB.Helpers.Constants;
+using TMarket.WEB.RequestModels.Products;
 using WebApplication2.Services.Abstract;
 
 
@@ -43,7 +43,7 @@ namespace TMarket.WEB.Controllers
             //    p.Price >= minPrice && p.Price.LessOrEmptyInput(maxPrice);
             Expression<Func<ProductDTO, bool>> predicate = Predicate(minPrice, maxPrice, name);
 
-            var products =  _productService.FindAllAsyncWithNoTracking(predicate);
+            var products = _productService.FindAllAsyncWithNoTracking(predicate, source => source.Include(x => x.Category));
 
             return _mapper.Map<List<ProductRespond>>(products);
         }
@@ -130,7 +130,7 @@ namespace TMarket.WEB.Controllers
             right = Expression.Constant(name ?? "", typeof(string));
             MethodInfo mi = typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) });
             Expression e3 = Expression.Call(left, mi, right);
-            
+
             Expression predicateBody = Expression.AndAlso(Expression.AndAlso(e1, e2), e3);
 
             var expressionTree = Expression.Lambda<Func<ProductDTO, bool>>(predicateBody, new[] { pe });

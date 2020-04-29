@@ -39,7 +39,7 @@ namespace TMarket.WEB.Controllers
         {
             if (await _cartService.InsertOrderAsync(_mapper.Map<CartDomain>(cart)))
             {
-                return Ok("შეკვეთა წარმატებით დაემატა!");
+                return Ok("კალათაში შეკვეთა წარმატებით დაემატა!");
             }
 
             return BadRequest(ModelState.Where(ms => ms.Value.Errors.Count > 0)

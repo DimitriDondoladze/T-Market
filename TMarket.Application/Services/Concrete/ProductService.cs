@@ -12,10 +12,24 @@ namespace WebApplication2.Services.Concrete
         {
             this.productProccesor = productProccesor;
         }
-        
         public ProductDTO get(int id)
         {
             return productProccesor.get(id);
+        }
+        public void Create(ProductDTO productDTO)
+        {
+            productProccesor.Create(productDTO);
+        }
+
+        public void Delete(int Id)
+        {
+            productProccesor.Delete(Id);
+        }
+       
+        public void Update(ProductDTO productDTO, int id)
+        {
+            productDTO.Id = id;
+            productProccesor.Update(productDTO);
         }
     }
 }

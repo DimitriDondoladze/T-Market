@@ -73,7 +73,7 @@ namespace TMarket.WEB.Controllers
                 return BadRequest(string.Format(ModelConstants.PropertyNotFoundFromController, "პროდუქტი"));
             }
 
-            await _productService.UpdateAsync(_mapper.Map<ProductDTO>(product));
+             _productConstructor.Update(_mapper.Map<ProductDTO>(product),id);
 
             return NoContent();
         }
@@ -82,9 +82,9 @@ namespace TMarket.WEB.Controllers
         [HttpPost]
         public async Task<ActionResult<ProductRespond>> PostProduct(ProductRequest product)
         {
-            await _productService.InsertAsync(_mapper.Map<ProductDTO>(product));
-
-            return CreatedAtAction("GetProduct", product);
+            //await _productService.InsertAsync(_mapper.Map<ProductDTO>(product));
+            _productConstructor.Create(_mapper.Map<ProductDTO>(product));
+            return Ok();
         }
 
         // DELETE: api/Products/5
@@ -97,7 +97,7 @@ namespace TMarket.WEB.Controllers
                 return BadRequest(string.Format(ModelConstants.PropertyNotFoundFromController, "პროდუქტი"));
             }
 
-            await _productService.DeleteAsync(id);
+             _productConstructor.Delete(id);
             return _mapper.Map<ProductRespond>(product);
         }
 

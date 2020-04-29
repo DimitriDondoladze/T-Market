@@ -10,7 +10,7 @@ using TMarket.WEB.Helpers.Extensions;
 using TMarket.Application.Services.Abstract;
 using TMarket.WEB.RequestModels.Products;
 using System.Linq.Expressions;
-
+using System.Reflection;
 using WebApplication2.Services.Abstract;
 
 
@@ -35,24 +35,22 @@ namespace TMarket.WEB.Controllers
         // GET: api/Products
         [HttpGet]
         public ActionResult<IEnumerable<ProductRespond>> GetProducts(
-            [FromQuery] string name, [FromQuery] decimal minPrice,
-            [FromQuery] decimal maxPrice)
+            [FromQuery] string name, [FromQuery] decimal? minPrice,
+            [FromQuery] decimal? maxPrice)
         {
 
             //Expression<Func<ProductDTO, bool>> predicate = p => p.Name.ToUpper().StartsWithOrNull(name.ToUpper()) &&
             //    p.Price >= minPrice && p.Price.LessOrEmptyInput(maxPrice);
             Expression<Func<ProductDTO, bool>> predicate = Predicate(minPrice, maxPrice, name);
 
-
             var products =  _productService.FindAllAsyncWithNoTracking(predicate);
-
 
             return _mapper.Map<List<ProductRespond>>(products);
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductRespond>> GetProduct(int id)
+        public ActionResult<ProductRespond> GetProduct(int id)
         {
             //var product = await _productService.GetByIdAsync(id);
             var product = _productConstructor.get(id);
@@ -117,19 +115,27 @@ namespace TMarket.WEB.Controllers
             return _mapper.Map<List<ProductRespond>>(products);
         }
 
-        private Expression<Func<ProductDTO, bool>> Predicate(decimal minPrice, decimal maxPrice, string name)
+        private Expression<Func<ProductDTO, bool>> Predicate(decimal? minPrice, decimal? maxPrice, string name)
         {
             ParameterExpression pe = Expression.Parameter(typeof(ProductDTO), "predicate");
 
-            MemberExpression me = Expression.Property(pe, "Price");
+            Expression left = Expression.Property(pe, "Price");
+            Expression right = Expression.Constant(minPrice ?? 0, typeof(decimal));
+            Expression e1 = Expression.GreaterThanOrEqual(left, right);
 
-            ConstantExpression constant = Expression.Constant(minPrice, typeof(decimal));
+            right = Expression.Constant(maxPrice ?? decimal.MaxValue, typeof(decimal));
+            Expression e2 = Expression.LessThanOrEqual(left, right);
+
+            left = Expression.Property(pe, "Name");
+            right = Expression.Constant(name ?? "", typeof(string));
+            MethodInfo mi = typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) });
+            Expression e3 = Expression.Call(left, mi, right);
             
-            BinaryExpression body = Expression.GreaterThanOrEqual(me, constant);
+            Expression predicateBody = Expression.AndAlso(Expression.AndAlso(e1, e2), e3);
 
-            var ExpressionTree = Expression.Lambda<Func<ProductDTO, bool>>(body, new[] { pe });
+            var expressionTree = Expression.Lambda<Func<ProductDTO, bool>>(predicateBody, new[] { pe });
 
-            return ExpressionTree;
+            return expressionTree;
         }
 
     }

@@ -7,6 +7,6 @@ namespace TMarket.Persistence.DbModels.Interfaces
         bool IsDeleted { get; set; }
         DateTime InsertDate { get; set; }
         DateTime UpdateDate { get; set; }
-        DateTime DeleteDate { get; set; }
+        DateTime? DeleteDate { get; set; }
     }
 }

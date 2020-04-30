@@ -9,6 +9,7 @@ namespace TMarket.WEB.RequestModels
 {
     public class CartResponse
     {
+        public int Id { get; set; }
         [Display(Name = "პროდუქტის აიდ")]
         public ICollection<ProductCartResponse> CartProducts { get; set; }
         [Display(Name = "იუზერის აიდ")]

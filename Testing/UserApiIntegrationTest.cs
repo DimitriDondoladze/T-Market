@@ -1,21 +1,35 @@
+using Moq;
 using System;
-using System.Net;
 using System.Threading.Tasks;
+using TMarket.Application.Services.Concrete;
+using TMarket.Persistence.DbModels;
+using TMarket.Persistence.DbModels.Interfaces;
+using TMarket.Persistence.Repositories.Abstract;
+using WebApplication2.DAL.DAL.DapperRepo;
+using WebApplication2.Services.Concrete;
 using Xunit;
 
 namespace Testing
 {
     public class UserApiIntegrationTest
     {
-        [Fact]
-        public async Task Test_Get_All()
+        private readonly ProductService _productService;
+        private readonly Mock<IProductProcessor> _ProductRepoMock = new Mock<IProductProcessor>();
+
+        public UserApiIntegrationTest()
         {
-            var client = new TestClientProvider().Client;
+            _productService = new ProductService(_ProductRepoMock.Object);
+        }
 
-            var response = await client.GetAsync("/api/Products");
+        [Fact]
+        public async Task GetByid_Shouldreturnproduct()
+        {
+            var ProductId = Guid.NewGuid();
 
-            response.EnsureSuccessStatusCode();
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var Product = _productService.get(ProductId);
+
+            Assert.Equal(ProductId, ProductId);
         }
     }
 }

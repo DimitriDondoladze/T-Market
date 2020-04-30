@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using TMarket.Application.Services.Abstract;
+using TMarket.Persistence.DapperRepo.Abstract;
 using TMarket.Persistence.DbModels;
-using WebApplication2.DAL.DAL.DapperRepo;
-using WebApplication2.Services.Abstract;
 
-namespace WebApplication2.Services.Concrete
+namespace TMarket.Application.Services.Concrete
 {
     public class ProductService : IProductService
     {

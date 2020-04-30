@@ -7,7 +7,7 @@ using TMarket.Persistence.DbModels;
 using TMarket.Persistence.UnitOfWork;
 using TMarket.Application.Services.Abstract;
 using TMarket.Application.CustomValidator.Abstract;
-using TMarket.Application.DomainModels;
+using TMarket.Application.ServiceModels;
 
 namespace TMarket.Application.Services.Concrete
 {
@@ -35,7 +35,7 @@ namespace TMarket.Application.Services.Concrete
             return items;
         }
 
-        public async Task<bool> InsertOrderAsync(OrderDomain order)
+        public async Task<bool> InsertOrderAsync(OrderServiceModel order)
         {
             try
             {
@@ -74,17 +74,17 @@ namespace TMarket.Application.Services.Concrete
             }
         }
 
-        protected async Task<bool> AddOrderProduct(OrderDomain order, List<ProductDTO> products, int orderId)
+        protected async Task<bool> AddOrderProduct(OrderServiceModel order, List<ProductDTO> products, int orderId)
         {
-            List<int> productIds = order.OrderProducts.Select(x => x.ProductId).ToList();
+            var productIds = order.OrderProducts.Select(x => x.ProductId).ToList();
 
-            for (int i = 0; i < productIds.Count; i++)
+            for (var i = 0; i < productIds.Count; i++)
             {
                 var productId = productIds[i];
                 var product = products.FirstOrDefault(x => x.Id == productId && x.IsAvailable);
                 var orderQuantity = order.OrderProducts.Single(x => x.ProductId == productId).Quantity;
 
-                if (!IsValidProduct(product, orderQuantity, productId, i))
+                if (!IsValidProduct(product, orderQuantity, i))
                 {
                     continue;
                 }
@@ -103,7 +103,7 @@ namespace TMarket.Application.Services.Concrete
             return _validationDictionary.IsValid;
         }
 
-        protected bool IsValidProduct(ProductDTO product, int orderQuantity, int productId, int orderNumber)
+        protected bool IsValidProduct(ProductDTO product, int orderQuantity, int orderNumber)
         {
             if (product == null)
             {

@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TMarket.Application.CustomValidator.Abstract;
-using TMarket.Application.DomainModels;
+using TMarket.Application.ServiceModels;
+using TMarket.Application.Services.Abstract;
 using TMarket.Persistence.DbModels;
 using TMarket.Persistence.UnitOfWork;
 
@@ -38,7 +39,7 @@ namespace TMarket.Application.Services.Concrete
             return items;
         }
 
-        public async Task<bool> InsertOrderAsync(CartDomain cart)
+        public async Task<bool> InsertOrderAsync(CartServiceModel cart)
         {
             try
             {
@@ -98,7 +99,7 @@ namespace TMarket.Application.Services.Concrete
             }
         }
 
-        protected async Task<bool> AddOrderProduct(CartDomain cart, List<ProductDTO> products, CartDTO cartDTO)
+        protected async Task<bool> AddOrderProduct(CartServiceModel cart, List<ProductDTO> products, CartDTO cartDTO)
         {
             List<int> productIds = cart.CartProducts.Select(x => x.ProductId).ToList();
 

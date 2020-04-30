@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TMarket.Application.DomainModels;
+using TMarket.Application.ServiceModels;
 using TMarket.WEB.RequestModels.Orders;
 using TMarket.Application.Services.Abstract;
 
@@ -36,7 +36,7 @@ namespace TMarket.WEB.Controllers
         [HttpPost]
         public async Task<ActionResult> PostOrder(OrderRequest order)
         {
-            if (await _orderService.InsertOrderAsync(_mapper.Map<OrderDomain>(order)))
+            if (await _orderService.InsertOrderAsync(_mapper.Map<OrderServiceModel>(order)))
             {
                 return Ok("შეკვეთა წარმატებით დაემატა!");
             }

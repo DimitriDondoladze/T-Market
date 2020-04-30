@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TMarket.Application.DomainModels;
+using TMarket.Application.ServiceModels;
 using TMarket.Persistence.DbModels;
 using TMarket.WEB.Commands.CategoryCommands;
 using TMarket.WEB.Commands.UserCommands;
@@ -26,17 +26,17 @@ namespace TMarket.WEB.MappingProfiles
 
             CreateMap<OrderDTO, OrderResponse>();
 
-            CreateMap<OrderRequest, OrderDomain>().ReverseMap();
+            CreateMap<OrderRequest, OrderServiceModel>().ReverseMap();
             
-            CreateMap<ProductOrderRequest, OrderProductDomain>();
+            CreateMap<ProductOrderRequest, OrderProductServiceModel>();
  
             CreateMap<CartProductDTO, ProductCartResponse>();
 
             CreateMap<CartDTO, CartResponse>();
 
-            CreateMap<CartRequest, CartDomain>().ReverseMap();
+            CreateMap<CartRequest, CartServiceModel>().ReverseMap();
 
-            CreateMap<ProductCartRequset, CartProductDomain>();
+            CreateMap<ProductCartRequset, CartProductServiceModel>();
 
             CreateMap<CategoryDTO, CategoryRespond>();
             CreateMap<CategoryRequestCommand, CategoryDTO>();

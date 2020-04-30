@@ -11,7 +11,6 @@ using TMarket.Application.Services.Abstract;
 using TMarket.Persistence.DbModels;
 using TMarket.WEB.Helpers.Constants;
 using TMarket.WEB.RequestModels.Products;
-using WebApplication2.Services.Abstract;
 
 
 namespace TMarket.WEB.Controllers
@@ -22,14 +21,14 @@ namespace TMarket.WEB.Controllers
     {
         private readonly IBaseService<ProductDTO> _productService;
         private readonly IMapper _mapper;
-        private readonly IProductService _productConstructor;
+        private readonly IProductService _productServiceDapper;
 
         public ProductsController(IBaseService<ProductDTO> productService, IMapper mapper,
                                   IProductService productConstructor)
         {
             _productService = productService;
             _mapper = mapper;
-            _productConstructor = productConstructor;
+            _productServiceDapper = productConstructor;
         }
 
         // GET: api/Products
@@ -53,7 +52,7 @@ namespace TMarket.WEB.Controllers
         public ActionResult<ProductRespond> GetProduct(int id)
         {
             //var product = await _productService.GetByIdAsync(id);
-            var product = _productConstructor.get(id);
+            var product = _productServiceDapper.get(id);
 
             if (product == null)
             {
@@ -73,17 +72,17 @@ namespace TMarket.WEB.Controllers
                 return BadRequest(string.Format(ModelConstants.PropertyNotFoundFromController, "პროდუქტი"));
             }
 
-             _productConstructor.Update(_mapper.Map<ProductDTO>(product),id);
+            _productServiceDapper.Update(_mapper.Map<ProductDTO>(product),id);
 
             return NoContent();
         }
 
         // POST: api/Products
         [HttpPost]
-        public async Task<ActionResult<ProductRespond>> PostProduct(ProductRequest product)
+        public ActionResult<ProductRespond> PostProduct(ProductRequest product)
         {
             //await _productService.InsertAsync(_mapper.Map<ProductDTO>(product));
-            _productConstructor.Create(_mapper.Map<ProductDTO>(product));
+            _productServiceDapper.Create(_mapper.Map<ProductDTO>(product));
             return Ok();
         }
 
@@ -97,7 +96,7 @@ namespace TMarket.WEB.Controllers
                 return BadRequest(string.Format(ModelConstants.PropertyNotFoundFromController, "პროდუქტი"));
             }
 
-             _productConstructor.Delete(id);
+            _productServiceDapper.Delete(id);
             return _mapper.Map<ProductRespond>(product);
         }
 

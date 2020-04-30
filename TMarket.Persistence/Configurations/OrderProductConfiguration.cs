@@ -1,8 +1,8 @@
-﻿using TMarket.Persistence.DbModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TMarket.Persistence.DbModels;
 
-namespace TMarket.Persistence
+namespace TMarket.Persistence.Configurations
 {
     public class OrderProductConfiguration : IEntityTypeConfiguration<OrderProductDTO>
     {

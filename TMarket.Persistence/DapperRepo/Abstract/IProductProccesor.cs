@@ -5,7 +5,7 @@ namespace WebApplication2.DAL.DAL.DapperRepo
 {
     public interface IProductProcessor
     {
-        ProductDTO get(int id);
+        ProductDTO get(object id);
 
         void Create(ProductDTO productDTO);
 

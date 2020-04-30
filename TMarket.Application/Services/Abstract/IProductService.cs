@@ -5,7 +5,7 @@ namespace WebApplication2.Services.Abstract
 {
     public interface IProductService
     {
-        ProductDTO get(int id);
+        ProductDTO get(object id);
         void Create(ProductDTO productDTO);
 
         void Update(ProductDTO productDTO, int id);

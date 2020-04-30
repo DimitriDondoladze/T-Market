@@ -12,7 +12,7 @@ namespace WebApplication2.Services.Concrete
         {
             this.productProccesor = productProccesor;
         }
-        public ProductDTO get(int id)
+        public ProductDTO get(object id)
         {
             return productProccesor.get(id);
         }

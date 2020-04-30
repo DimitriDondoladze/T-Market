@@ -17,7 +17,7 @@ namespace WebApplication2.DAL.DAL.DapperRepo.Concrete
             connectionString = configuration["ConnectionStrings:DefaultConnection"];
         }
 
-        public ProductDTO get(int id)
+        public ProductDTO get(object id)
         {
             IEnumerable<ProductDTO> ProductDtOs = null;
             using (var connection = new SqlConnection(connectionString))

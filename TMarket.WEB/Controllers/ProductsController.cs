@@ -16,7 +16,7 @@ using WebApplication2.Services.Abstract;
 
 namespace TMarket.WEB.Controllers
 {
-    [Route("api/[Products]")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using TMarket.Application.DomainModels;
 using TMarket.Application.Services;
@@ -65,6 +66,7 @@ namespace TMarket.WEB.Controllers
 
             if (await _orderService.InsertOrderAsync(_mapper.Map<OrderDomain>(order)))
             {
+                BackgroundJob.Delete(cart.JobId);
                 await _cartService.DeleteCart(cart.Id);
                 return Ok("შეკვეთა წარმატებით დაემატა!");
             }

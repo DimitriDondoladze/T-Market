@@ -82,6 +82,8 @@ namespace TMarket.Application.Services.Concrete
                 {
                     var jobId = BackgroundJob.Schedule(() => DeleteCart(newCart.Id),
                         TimeSpan.FromMinutes(_config.GetValue<int>("CartOptions:CartExpireTimeInMinute")));
+                    newCart.JobId = jobId;
+                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 await _unitOfWork.CommitAsync();

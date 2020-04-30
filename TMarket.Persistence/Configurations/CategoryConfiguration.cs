@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TMarket.Persistence.DbModels;
 
 namespace TMarket.Persistence.Configurations
@@ -11,7 +8,7 @@ namespace TMarket.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<CategoryDTO> builder)
         {
-            builder.Property(x => x.Name).IsRequired(true);
+            builder.Property(x => x.Name).IsRequired(true).HasMaxLength(30);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace TMarket.Persistence.DbModels
         [NotMapped]
         public DateTime UpdateDate { get; set; }
         [NotMapped]
-        public DateTime DeleteDate { get; set; }
+        public DateTime? DeleteDate { get; set; }
         
     }
 }

@@ -20,6 +20,6 @@ namespace TMarket.Persistence.DbModels
         [NotMapped]
         public DateTime UpdateDate { get => ((IDbEntity)Order).UpdateDate; set => ((IDbEntity)Order).UpdateDate = value; }
         [NotMapped]
-        public DateTime DeleteDate { get => ((IDbEntity)Order).DeleteDate; set => ((IDbEntity)Order).DeleteDate = value; }
+        public DateTime? DeleteDate { get => ((IDbEntity)Order).DeleteDate; set => ((IDbEntity)Order).DeleteDate = value; }
     }
 }

@@ -1,12 +1,13 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System;
 using System.Collections.Generic;
-using Dapper;
-using TMarket.Persistence.DbModels;
-using Microsoft.Extensions.Configuration;
 using System.Linq;
-using System;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using TMarket.Persistence.DapperRepo.Abstract;
+using TMarket.Persistence.DbModels;
 
-namespace WebApplication2.DAL.DAL.DapperRepo.Concrete
+namespace TMarket.Persistence.DapperRepo.Concrete
 {
     public class ProductProccesor : IProductProcessor
 

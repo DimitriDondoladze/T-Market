@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
-using TMarket.Application.DomainModels;
-using TMarket.Application.Services;
+using TMarket.Application.ServiceModels;
 using TMarket.Application.Services.Abstract;
-using TMarket.WEB.RequestModels;
 using TMarket.WEB.RequestModels.Cart;
 using TMarket.WEB.RequestModels.Orders;
 
@@ -28,7 +26,7 @@ namespace TMarket.WEB.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<IActionResult> GetProductsInCart()
+        public IActionResult GetProductsInCart()
         {
             var carts = _cartService.GetAllWithNoTracking();
 
@@ -38,7 +36,7 @@ namespace TMarket.WEB.Controllers
         [HttpPost]
         public async Task<ActionResult> PostCart(CartRequest cart)
         {
-            if (await _cartService.InsertOrderAsync(_mapper.Map<CartDomain>(cart)))
+            if (await _cartService.InsertOrderAsync(_mapper.Map<CartServiceModel>(cart)))
             {
                 return Ok("კალათაში შეკვეთა წარმატებით დაემატა!");
             }
@@ -54,7 +52,7 @@ namespace TMarket.WEB.Controllers
 
             if(cart == null)
             {
-                return BadRequest();
+                return BadRequest("კალათა ვერ მოიძებნა");
             }
 
             List<ProductOrderRequest> orderProducts = new List<ProductOrderRequest>();
@@ -64,7 +62,7 @@ namespace TMarket.WEB.Controllers
             }
             var order = new OrderRequest { UserId = cart.UserId, OrderProducts = orderProducts };
 
-            if (await _orderService.InsertOrderAsync(_mapper.Map<OrderDomain>(order)))
+            if (await _orderService.InsertOrderAsync(_mapper.Map<OrderServiceModel>(order)))
             {
                 BackgroundJob.Delete(cart.JobId);
                 await _cartService.DeleteCart(cart.Id);

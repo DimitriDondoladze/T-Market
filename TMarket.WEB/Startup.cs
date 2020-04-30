@@ -17,15 +17,13 @@ using System.Reflection;
 using TMarket.Application.Services.Abstract;
 using TMarket.Application.Services.Concrete;
 using TMarket.Persistence;
+using TMarket.Persistence.DapperRepo.Abstract;
+using TMarket.Persistence.DapperRepo.Concrete;
 using TMarket.Persistence.Repositories.Abstract;
 using TMarket.Persistence.Repositories.Concrete;
 using TMarket.Persistence.UnitOfWork;
 using TMarket.WEB.Helpers.CustomMiddlewares;
 using TMarket.WEB.Helpers.Filters;
-using WebApplication2.DAL.DAL.DapperRepo;
-using WebApplication2.DAL.DAL.DapperRepo.Concrete;
-using WebApplication2.Services.Abstract;
-using WebApplication2.Services.Concrete;
 
 namespace TMarket.WEB
 {

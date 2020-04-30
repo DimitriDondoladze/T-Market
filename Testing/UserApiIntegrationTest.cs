@@ -2,11 +2,10 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using TMarket.Application.Services.Concrete;
+using TMarket.Persistence.DapperRepo.Abstract;
 using TMarket.Persistence.DbModels;
 using TMarket.Persistence.DbModels.Interfaces;
 using TMarket.Persistence.Repositories.Abstract;
-using WebApplication2.DAL.DAL.DapperRepo;
-using WebApplication2.Services.Concrete;
 using Xunit;
 
 namespace Testing

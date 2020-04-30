@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using TMarket.Persistence.DbModels;
+﻿using TMarket.Persistence.DbModels;
 
-namespace WebApplication2.DAL.DAL.DapperRepo
+namespace TMarket.Persistence.DapperRepo.Abstract
 {
     public interface IProductProcessor
     {

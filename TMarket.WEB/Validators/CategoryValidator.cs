@@ -11,6 +11,7 @@ namespace TMarket.WEB.Validators
             RuleFor(p => p.Name)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)
+                .OverridePropertyName("სახელ")
                 .Length(2, 20).WithMessage(ModelConstants.StringLengthError)
                 .Matches(ModelConstants.NameRegEx).WithMessage(ModelConstants.InvalidName);
         }

@@ -1,5 +1,4 @@
-﻿
-using TMarket.Application.Services.Abstract;
+﻿using TMarket.Application.Services.Abstract;
 
 namespace TMarket.Application.CustomValidator.Abstract
 {

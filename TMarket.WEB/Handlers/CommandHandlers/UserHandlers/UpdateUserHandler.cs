@@ -29,19 +29,9 @@ namespace TMarket.WEB.Handlers.CommandHandlers.UserHandlers
                 return null;
             }
 
-            var user = MapUser(request);
+            var user = _mapper.Map<UserDTO>(request);
             var updatedUser =  await _userService.UpdateAsync(user);
             return _mapper.Map<UserRespond>(updatedUser);
-        }
-
-        private UserDTO MapUser(UserUpdateCommand request)
-        {
-            return new UserDTO()
-            {
-                Id = request.Id,
-                Name = request.Command.Name,
-                Lastname = request.Command.Lastname
-            };
         }
     }
 }

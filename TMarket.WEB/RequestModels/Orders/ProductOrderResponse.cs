@@ -1,5 +1,4 @@
-﻿
-namespace TMarket.WEB.RequestModels.Orders
+﻿namespace TMarket.WEB.RequestModels.Orders
 {
     public class ProductOrderResponse
     {

@@ -29,18 +29,9 @@ namespace TMarket.WEB.Handlers.CommandHandlers.CategoryHandler
                 return null;
             }
 
-            var category = MapUser(request);
+            var category = _mapper.Map<CategoryDTO>(request);
             var updatedCategory = await _categoryService.UpdateAsync(category);
             return _mapper.Map<CategoryRespond>(updatedCategory);
-        }
-
-        private CategoryDTO MapUser(CategoryUpdateCommand request)
-        {
-            return new CategoryDTO()
-            {
-                Id = request.Id,
-                Name = request.Command.Name
-            };
         }
     }
 }

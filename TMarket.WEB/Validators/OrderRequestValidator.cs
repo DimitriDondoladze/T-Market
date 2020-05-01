@@ -11,10 +11,12 @@ namespace TMarket.WEB.Validators
             RuleFor(x => x.UserId)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)
+                .OverridePropertyName("იუზერის აიდ")
                 .GreaterThanOrEqualTo(0).WithMessage(ModelConstants.MustBeMoreThanZero);
 
             RuleFor(x => x.OrderProducts)
-                .NotEmpty().WithMessage(ModelConstants.PropertyNotFound);
+                .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)
+                .OverridePropertyName("პროდუქტებ");
 
             RuleForEach(x => x.OrderProducts)
                 .SetValidator(new ProductOrderRequestValidator());

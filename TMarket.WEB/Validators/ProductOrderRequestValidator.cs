@@ -11,11 +11,13 @@ namespace TMarket.WEB.Validators
             RuleFor(x => x.ProductId)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)
+                .OverridePropertyName("პროდუქტის აიდ")
                 .GreaterThanOrEqualTo(0).WithMessage(ModelConstants.MustBeMoreThanZero);
 
             RuleFor(x => x.Quantity)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .NotEmpty().WithMessage(ModelConstants.PropertyNotFound)
+                .OverridePropertyName("პროდუქტის რაოდენობ")
                 .GreaterThanOrEqualTo(0).WithMessage(ModelConstants.MustBeMoreThanZero);
         }
     }

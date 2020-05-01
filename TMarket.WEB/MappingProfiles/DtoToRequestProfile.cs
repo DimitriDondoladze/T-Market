@@ -16,6 +16,8 @@ namespace TMarket.WEB.MappingProfiles
         {
             CreateMap<UserDTO, UserRespond>();
             CreateMap<UserRequestCommand, UserDTO>();
+            CreateMap<UserUpdateCommand, UserDTO>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Command.Name))
+                .ForMember(dest => dest.Lastname, opt => opt.MapFrom(src => src.Command.Lastname));
 
             CreateMap<ProductDTO, ProductRespond>().ForMember(dest => dest.CategoryName, opt 
                 => opt.MapFrom(src => src.Category.Name));
@@ -40,7 +42,8 @@ namespace TMarket.WEB.MappingProfiles
 
             CreateMap<CategoryDTO, CategoryRespond>();
             CreateMap<CategoryRequestCommand, CategoryDTO>();
-
+            CreateMap<CategoryUpdateCommand, CategoryDTO>().ForMember(dest => dest.Name, opt
+                => opt.MapFrom(src => src.Command.Name));
         }
     }
 }
